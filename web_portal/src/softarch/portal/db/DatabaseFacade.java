@@ -3,6 +3,8 @@ package softarch.portal.db;
 import softarch.portal.data.RawData;
 import softarch.portal.data.RegularData;
 import softarch.portal.data.UserProfile;
+import softarch.portal.db.webservice.RegularWebServiceDatabase;
+
 import java.util.List;
 import java.util.Date;
 import java.util.Properties;
@@ -15,6 +17,8 @@ public class DatabaseFacade {
 	private UserDatabase userDb;
 	private RegularDatabase regularDb;
 	private RawDatabase	rawDb;
+	
+	private RegularDatabase rWebServicedb;
 
 	/**
 	 * Creates a new database facade.
@@ -27,6 +31,8 @@ public class DatabaseFacade {
 		userDb    = df.getUserDatabase(properties);
 		regularDb = df.getRegularDatabase(properties);
 		rawDb     = df.getRawDatabase(properties);
+		
+		rWebServicedb = new RegularWebServiceDatabase(properties);
 	}
 
 	/**
@@ -71,8 +77,15 @@ public class DatabaseFacade {
 	 */
 	public List<RegularData> findRecords(String informationType, String queryString)
 		throws DatabaseException {
-
-		return regularDb.findRecords(informationType, queryString);
+		
+		List<RegularData> localResults = regularDb
+				.findRecords(informationType, queryString);
+		
+		List<RegularData> results = rWebServicedb
+			.findRecords(informationType, queryString);
+		
+		results.addAll(localResults);
+		return results;
 	}
 
 	/**

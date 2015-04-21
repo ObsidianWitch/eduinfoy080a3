@@ -27,11 +27,11 @@ public class RegularWebServiceDatabase extends WebServiceDatabase
 
 	public List<RegularData> findRecords(String informationType,
 			String queryString) throws DatabaseException {
-		if (informationType.charAt(0) != 'B') {
-			throw new DatabaseException("not supported");
-		}
 		
 		List<RegularData> result = new Vector<RegularData>();
+		if (informationType.charAt(0) != 'B') {
+			return result;
+		}
 		
 		try {
 			LibrarySearchSOAPBindingStub binding = new LibrarySearchSOAPBindingStub(
@@ -41,6 +41,10 @@ public class RegularWebServiceDatabase extends WebServiceDatabase
 			LibrarySearchResponse response = binding.process(request);
 			
 			librarysearch.soft.Book[] books = response.getBooks().getBook();
+			if (books == null) {
+				return result;
+			}
+			
 			for(librarysearch.soft.Book book : books) {
 				result.add(new Book(book));
 			}
