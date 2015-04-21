@@ -1,11 +1,17 @@
 package softarch.portal.db.webservice;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 public class WebServiceDatabase {
-	protected String webServiceUrl;
+	protected URL webServiceUrl;
 	
 	public WebServiceDatabase(Properties properties) {
-		this.webServiceUrl = properties.getProperty("webServiceUrl");
+		try {
+			this.webServiceUrl = new URL(properties.getProperty("webServiceUrl"));
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 	}
 }
