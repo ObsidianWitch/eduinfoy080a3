@@ -4,6 +4,7 @@ import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -80,6 +81,23 @@ public class Book extends RegularData {
 			request.getParameter("Review"),
 			request.getParameter("Summary"),
 			request.getParameter("Title"));
+	}
+	
+	/**
+	 * Creates a softarch.portal.data.Book from a librarysearch.soft.Book.
+	 */
+	public Book(librarysearch.soft.Book book) {
+		this(
+			new Date(),
+			book.getAuthor(),
+			book.getIsbn().longValue(),
+			book.getPages(),
+			book.getPublicationDate().getTime(),
+			book.getPublisher(),
+			book.getReview(),
+			book.getSummary(),
+			book.getTitle()
+		);
 	}
 
 	/**
