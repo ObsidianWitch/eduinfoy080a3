@@ -146,7 +146,7 @@
 			<bpel:copy>
 				<bpel:from>
 				<!-- processing the results -->
-				bpel:doXslTransform("books.xsl", $sl_searchBooksResponse.parameters, "second", $nl_searchForBooksResponse.parameters/*)</bpel:from>
+				bpel:doXslTransform("books.xsl", $sl_searchBooksResponse.parameters, "second", $nl_searchForBooksResponse.parameters)</bpel:from>
 
 				<bpel:to>$response.body//tns:books</bpel:to>
 			</bpel:copy>
