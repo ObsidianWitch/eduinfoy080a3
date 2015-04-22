@@ -1,11 +1,14 @@
 package softarch.portal.db.webservice;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Vector;
 
 import javax.xml.rpc.holders.StringHolder;
 
@@ -29,33 +32,6 @@ public class RegularWebServiceDatabase extends WebServiceDatabase
 	public List<RegularData> findRecords(String informationType,
 			String queryString) throws DatabaseException {
 		
-		/*List<RegularData> result = new Vector<RegularData>();
-		if (informationType.charAt(0) != 'B') {
-			return result;
-		}
-		
-		try {
-			LibrarySearchSOAPBindingStub binding = new LibrarySearchSOAPBindingStub(
-				webServiceUrl, new LibrarySearchServiceLocator()
-			);
-			LibrarySearchRequest request = new LibrarySearchRequest(queryString);
-			LibrarySearchResponse response = binding.process(request);
-			
-			librarysearch.soft.Book[] books = response.getBooks().getBook();
-			if (books == null) {
-				return result;
-			}
-			
-			for(librarysearch.soft.Book book : books) {
-				result.add(new Book(book));
-			}
-		} catch (AxisFault e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		
-		return result;*/
 		try {
 			LibrarySearchSOAPBindingStub binding = new LibrarySearchSOAPBindingStub(
 				webServiceUrl, new LibrarySearchServiceLocator()
@@ -63,7 +39,7 @@ public class RegularWebServiceDatabase extends WebServiceDatabase
 			StringHolder request = new StringHolder(queryString);
 			BookList response = binding.process(request);
 			
-			return parse(response);
+			return getBooks(response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,47 +60,21 @@ public class RegularWebServiceDatabase extends WebServiceDatabase
 		throw new DatabaseException("not implemented");
 	}
 	
-	private softarch.portal.data.Book createBook(be.ac.vub.soft.Book book) {
-		String	author = book.getAuthor();
-		long	isbn = book.getIsbn();
-		int	pages = 0;
-		Date publicationDate = new GregorianCalendar(book.getYear(), 0, 1).getTime();
-		String	publisher = book.getPublisher();
-		String	review = "";
-		String	summary = "";
-		String	title = book.getTitle();
-		Book b = new softarch.portal.data.Book(new Date(),author,isbn, pages, publicationDate, publisher, review, summary, title);
-		return b;
-	}
-	
-	private softarch.portal.data.Book createBook(be.library.Book book) {
-		String	author = book.getAuthor();
-		long	isbn = Long.parseLong(book.getIsbn(), 10);
-		int	pages = 0;
-		Date	publicationDate = book.getDate().getTime();
-		String	publisher = book.getPublisher();
-		String	review = "";
-		String	summary = "";
-		String	title = book.getTitle();
-		Book b = new softarch.portal.data.Book(new Date(),author,isbn, pages, publicationDate, publisher, review, summary, title);
-		return b;
+	private List<RegularData> getBooks(BookList booklist) throws Exception {
+		List<RegularData> result = new Vector<RegularData>();
 		
-	}
-	
-	private List<RegularData> parse(BookList booklist) throws Exception {
-		List<RegularData> list = new ArrayList<RegularData>();
 		for(MessageElement element : booklist.get_any()) {
 			if(element.getName().equals("searchBooksResponse")) {
 				for (Iterator<MessageElement> iterator = element.getChildren().iterator(); iterator.hasNext();) {
 					MessageElement el = iterator.next();
 					be.ac.vub.soft.Book book = (be.ac.vub.soft.Book) el.getObjectValue(be.ac.vub.soft.Book.class);
-					list.add(createBook(book));
+					result.add(new Book(book));
 				}
 			} else {
 				be.library.Book book = (be.library.Book) element.getObjectValue(be.library.Book.class);
-				list.add(createBook(book));
+				result.add(new Book(book));
 			}
 		}
-		return list;
+		return result;
 	}
 }

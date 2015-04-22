@@ -4,6 +4,7 @@ import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -84,18 +85,36 @@ public class Book extends RegularData {
 	}
 	
 	/**
-	 * Creates a softarch.portal.data.Book from a librarysearch.soft.Book.
+	 * Convert a be.ac.vub.soft.Book to a softarch.portal.data.Book.
+	 * @throws ParseException 
 	 */
-	public Book(librarysearch.soft.Book book) {
+	public Book(be.ac.vub.soft.Book book) throws ParseException {		
+		this(
+				new Date(),
+				book.getAuthor(),
+				book.getIsbn().longValue(),
+				0,
+				df.parse(book.getYear() + "-01-01"),
+				book.getPublisher(),
+				"", // review
+				"", // summary
+				book.getTitle()
+		);
+	}
+	
+	/**
+	 * Convert a be.library.Book to a softarch.portal.data.Book.
+	 */
+	public Book(be.library.Book book) {
 		this(
 			new Date(),
 			book.getAuthor(),
-			book.getIsbn().longValue(),
-			book.getPages(),
-			book.getPublicationDate().getTime(),
+			Long.parseLong(book.getIsbn()),
+			0,
+			book.getDate().getTime(),
 			book.getPublisher(),
-			book.getReview(),
-			book.getSummary(),
+			"", // review
+			"", // summary
 			book.getTitle()
 		);
 	}
