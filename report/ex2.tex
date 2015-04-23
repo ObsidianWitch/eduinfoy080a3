@@ -1,2 +1,35 @@
 \section{Exercise 2: Integration with Legacy Software}
+
+First of all, the json database backend from the previous assignment was
+extended in order to be able to search for books with it. The
+\hl{RegularJSONDatabase.findRecords()} method was implemented and looks for
+book records inside the \hl{web\_portal/DB/JSON/books.json} file.\\
+
+Then, a new database layer was added to handle web services. The
+\hl{softarch.portal.db.webservice. WebServiceDatabase} and
+\hl{.RegularWebServiceDatabase} classes were created. The code for the
+\hl{RegularWebServiceDatabase.findRecords()} method uses classes
+automatically generated from the \hl{LibrarySearchArtifacts.wsdl} file.\\
+
+Generated classes were created inside the \emph{librarysearch.soft} package. We
+instantiate a \hl{LibrarySearchSOAPBindingStub} with a
+\hl{LibrarySearchServiceLocator} and the web service url (stored in the portal
+\hl{web\_portal.cfg} configuration file). This stub class can process a request
+(\hl{StringHolder}) and returns an array of \hl{librarysearch.soft.Book}. Once
+these books are retrieved, they can be transformed to the
+\hl{softarch.portal.data.Book} class.\\
+
+The newly created \hl{RegularDatabase} implementation is instantiated in
+the \hl{DatabaseFacade} class and used in the \hl{findRecords()} method.
+Results from both the local (SQL or JSON) and web service databases are
+concatenated and returned.\\
+
+\begin{framewarning}
+    The NationalLibrary and SoftLibrary web services only contain dummy data.
+    Moreover, their search functions do not search, but returns all the results
+    without filtering anything (see
+    \hl{SoftLibrarySoapBindingImpl.searchBooks()}
+    and \hl{LibraryService.searchForBooks()} methods).
+\end{framewarning}
+
 \newpage
