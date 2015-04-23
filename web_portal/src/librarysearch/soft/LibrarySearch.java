@@ -8,5 +8,5 @@
 package librarysearch.soft;
 
 public interface LibrarySearch extends java.rmi.Remote {
-    public librarysearch.soft.BookList process(javax.xml.rpc.holders.StringHolder query) throws java.rmi.RemoteException;
+    public librarysearch.soft.Book[] process(javax.xml.rpc.holders.StringHolder query) throws java.rmi.RemoteException;
 }

@@ -28,8 +28,10 @@ public class LibrarySearchSOAPBindingStub extends org.apache.axis.client.Stub im
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("urn:soft.librarysearch", "query"), org.apache.axis.description.ParameterDesc.INOUT, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         oper.addParameter(param);
         oper.setReturnType(new javax.xml.namespace.QName("urn:soft.librarysearch", "BookList"));
-        oper.setReturnClass(librarysearch.soft.BookList.class);
+        oper.setReturnClass(librarysearch.soft.Book[].class);
         oper.setReturnQName(new javax.xml.namespace.QName("urn:soft.librarysearch", "books"));
+        param = oper.getReturnParamDesc();
+        param.setItemQName(new javax.xml.namespace.QName("urn:soft.librarysearch", "book"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
         _operations[0] = oper;
@@ -65,29 +67,6 @@ public class LibrarySearchSOAPBindingStub extends org.apache.axis.client.Stub im
             java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
             java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
             java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
-            qName = new javax.xml.namespace.QName("http://library.be", ">searchForBooks");
-            cachedSerQNames.add(qName);
-            cls = be.library.SearchForBooks.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("http://library.be", ">searchForBooksResponse");
-            cachedSerQNames.add(qName);
-            cls = be.library.Book[].class;
-            cachedSerClasses.add(cls);
-            qName = new javax.xml.namespace.QName("http://library.be", "Book");
-            qName2 = new javax.xml.namespace.QName("http://library.be", "searchForBooksReturn");
-            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
-            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
-
-            qName = new javax.xml.namespace.QName("http://library.be", "Book");
-            cachedSerQNames.add(qName);
-            cls = be.library.Book.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
             qName = new javax.xml.namespace.QName("urn:soft.librarysearch", "Book");
             cachedSerQNames.add(qName);
             cls = librarysearch.soft.Book.class;
@@ -97,49 +76,12 @@ public class LibrarySearchSOAPBindingStub extends org.apache.axis.client.Stub im
 
             qName = new javax.xml.namespace.QName("urn:soft.librarysearch", "BookList");
             cachedSerQNames.add(qName);
-            cls = librarysearch.soft.BookList.class;
+            cls = librarysearch.soft.Book[].class;
             cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("urn:soft.vub.ac.be/", ">getAllBooks");
-            cachedSerQNames.add(qName);
-            cls = be.ac.vub.soft.GetAllBooks.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("urn:soft.vub.ac.be/", ">getAllBooksResponse");
-            cachedSerQNames.add(qName);
-            cls = be.ac.vub.soft.Book[].class;
-            cachedSerClasses.add(cls);
-            qName = new javax.xml.namespace.QName("urn:soft.vub.ac.be/", "Book");
-            qName2 = new javax.xml.namespace.QName("", "book");
+            qName = new javax.xml.namespace.QName("urn:soft.librarysearch", "Book");
+            qName2 = new javax.xml.namespace.QName("urn:soft.librarysearch", "book");
             cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
             cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
-
-            qName = new javax.xml.namespace.QName("urn:soft.vub.ac.be/", ">searchBooks");
-            cachedSerQNames.add(qName);
-            cls = be.ac.vub.soft.SearchBooks.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
-
-            qName = new javax.xml.namespace.QName("urn:soft.vub.ac.be/", ">searchBooksResponse");
-            cachedSerQNames.add(qName);
-            cls = be.ac.vub.soft.Book[].class;
-            cachedSerClasses.add(cls);
-            qName = new javax.xml.namespace.QName("urn:soft.vub.ac.be/", "Book");
-            qName2 = new javax.xml.namespace.QName("", "book");
-            cachedSerFactories.add(new org.apache.axis.encoding.ser.ArraySerializerFactory(qName, qName2));
-            cachedDeserFactories.add(new org.apache.axis.encoding.ser.ArrayDeserializerFactory());
-
-            qName = new javax.xml.namespace.QName("urn:soft.vub.ac.be/", "Book");
-            cachedSerQNames.add(qName);
-            cls = be.ac.vub.soft.Book.class;
-            cachedSerClasses.add(cls);
-            cachedSerFactories.add(beansf);
-            cachedDeserFactories.add(beandf);
 
     }
 
@@ -207,7 +149,7 @@ public class LibrarySearchSOAPBindingStub extends org.apache.axis.client.Stub im
         }
     }
 
-    public librarysearch.soft.BookList process(javax.xml.rpc.holders.StringHolder query) throws java.rmi.RemoteException {
+    public librarysearch.soft.Book[] process(javax.xml.rpc.holders.StringHolder query) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -238,9 +180,9 @@ public class LibrarySearchSOAPBindingStub extends org.apache.axis.client.Stub im
                 query.value = (java.lang.String) org.apache.axis.utils.JavaUtils.convert(_output.get(new javax.xml.namespace.QName("urn:soft.librarysearch", "query")), java.lang.String.class);
             }
             try {
-                return (librarysearch.soft.BookList) _resp;
+                return (librarysearch.soft.Book[]) _resp;
             } catch (java.lang.Exception _exception) {
-                return (librarysearch.soft.BookList) org.apache.axis.utils.JavaUtils.convert(_resp, librarysearch.soft.BookList.class);
+                return (librarysearch.soft.Book[]) org.apache.axis.utils.JavaUtils.convert(_resp, librarysearch.soft.Book[].class);
             }
         }
   } catch (org.apache.axis.AxisFault axisFaultException) {

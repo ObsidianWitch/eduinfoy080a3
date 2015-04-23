@@ -44,7 +44,7 @@ public class LibrarySearchProxy implements librarysearch.soft.LibrarySearch {
     return librarySearch;
   }
   
-  public librarysearch.soft.BookList process(javax.xml.rpc.holders.StringHolder query) throws java.rmi.RemoteException{
+  public librarysearch.soft.Book[] process(javax.xml.rpc.holders.StringHolder query) throws java.rmi.RemoteException{
     if (librarySearch == null)
       _initLibrarySearchProxy();
     return librarySearch.process(query);
